@@ -79,12 +79,36 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="ShiHao">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="1 重点概念1.1 结点概念结点是数据结构中的基础，是构成复杂数据结构的基本组成单位。 1.2 树结点声明本系列文章中提及的结点专指树的结点。例如：结点A在图中表示为：  2 树2.1 定义树（Tree）是n（n&gt;&#x3D;0)个结点的有限集。n&#x3D;0时称为空树。在任意一颗非空树中：1）有且仅有一个特定的称为根（Root）的结点；2）当n&gt;1时，其余结点可分为m(m&gt;0)个互不相交的有限集">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二叉树">
+<meta property="og:url" content="http://yoursite.com/2020/05/19/%E4%BA%8C%E5%8F%89%E6%A0%91/index.html">
 <meta property="og:site_name" content="ShiHao">
+<meta property="og:description" content="1 重点概念1.1 结点概念结点是数据结构中的基础，是构成复杂数据结构的基本组成单位。 1.2 树结点声明本系列文章中提及的结点专指树的结点。例如：结点A在图中表示为：  2 树2.1 定义树（Tree）是n（n&gt;&#x3D;0)个结点的有限集。n&#x3D;0时称为空树。在任意一颗非空树中：1）有且仅有一个特定的称为根（Root）的结点；2）当n&gt;1时，其余结点可分为m(m&gt;0)个互不相交的有限集">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-65320a245aa1e60e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/54">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-2c735a2733887dc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/502">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-cfa7c45bb8f1e332.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/535">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-7c9318a6f5c1349d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/652">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-797eb7ba417745b2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/455">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-a512316455261ec7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/373">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-352190ff8558efcb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/342">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-c7a557dda4ffc7da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/392">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-132fd0379f34bcc1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/404">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-3293242769696303.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/441">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-e916580c061a1139.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/596">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-92d8a8d61c2aace7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-d6cd02856b386d6d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/448">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-0ada42b04e0861a8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-95cd18e8cc20316e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/315">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-73ae201506a7adc9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/688">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-df454c0a574836de.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/441">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-8c94f437f66b5d44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/438">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7043118-63b9acd9dc69201b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/381">
+<meta property="article:published_time" content="2020-05-19T14:23:06.718Z">
+<meta property="article:modified_time" content="2020-05-19T14:24:01.249Z">
 <meta property="article:author" content="shihao">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7043118-65320a245aa1e60e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/54">
 
 
 
@@ -114,13 +138,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/05/19/二叉树/"/>
 
 
 
 
 
-  <title>ShiHao</title>
+  <title>二叉树 | ShiHao</title>
   
 
 
@@ -139,8 +163,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -213,9 +236,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -245,9 +268,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/19/%E4%BA%8C%E5%8F%89%E6%A0%91/" itemprop="url">二叉树</a></h1>
+          <h1 class="post-title" itemprop="name headline">二叉树</h1>
         
 
         <div class="post-meta">
@@ -297,9 +318,7 @@
       
 
       
-        
-          
-            <h3 id="1-重点概念"><a href="#1-重点概念" class="headerlink" title="1 重点概念"></a>1 重点概念</h3><h4 id="1-1-结点概念"><a href="#1-1-结点概念" class="headerlink" title="1.1 结点概念"></a>1.1 结点概念</h4><p><strong>结点</strong>是数据结构中的基础，是构成复杂数据结构的基本组成单位。</p>
+        <h3 id="1-重点概念"><a href="#1-重点概念" class="headerlink" title="1 重点概念"></a>1 重点概念</h3><h4 id="1-1-结点概念"><a href="#1-1-结点概念" class="headerlink" title="1.1 结点概念"></a>1.1 结点概念</h4><p><strong>结点</strong>是数据结构中的基础，是构成复杂数据结构的基本组成单位。</p>
 <h4 id="1-2-树结点声明"><a href="#1-2-树结点声明" class="headerlink" title="1.2 树结点声明"></a>1.2 树结点声明</h4><p>本系列文章中提及的结点专指树的结点。例如：结点A在图中表示为：</p>
 <p><img src="https:////upload-images.jianshu.io/upload_images/7043118-65320a245aa1e60e.png?imageMogr2/auto-orient/strip|imageView2/2/w/54" alt="img"></p>
 <h3 id="2-树"><a href="#2-树" class="headerlink" title="2 树"></a>2 树</h3><h4 id="2-1-定义"><a href="#2-1-定义" class="headerlink" title="2.1 定义"></a>2.1 定义</h4><p><strong>树（Tree）</strong>是n（n&gt;=0)个结点的有限集。n=0时称为空树。在任意一颗非空树中：<br>1）有且仅有一个特定的称为根（Root）的结点；<br>2）当n&gt;1时，其余结点可分为m(m&gt;0)个互不相交的有限集T1、T2、……、Tn，其中每一个集合本身又是一棵树，并且称为根的子树。</p>
@@ -395,8 +414,6 @@
 <p>图3.15.png</p>
 <p>2）已知后序遍历序列和中序遍历序列，确定一棵二叉树。<br>后序遍历中最后访问的为根结点，因此可以按照上述同样的方法，找到根结点后分成两棵子树，进而继续找到子树的根结点，一步步确定二叉树的形态。<br><strong>注</strong>：已知前序遍历序列和后序遍历序列，不可以唯一确定一棵二叉树。</p>
 
-          
-        
       
     </div>
     
@@ -413,143 +430,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/14/%E5%AF%B9%E8%B1%A1%E5%92%8C%E7%B1%BB%E5%AF%B9%E8%B1%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="shihao">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ShiHao">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/14/%E5%AF%B9%E8%B1%A1%E5%92%8C%E7%B1%BB%E5%AF%B9%E8%B1%A1/" itemprop="url">对象和类对象</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-14T23:06:55+08:00">
-                2019-07-14
-              </time>
+              <a href="/2019/07/14/%E5%AF%B9%E8%B1%A1%E5%92%8C%E7%B1%BB%E5%AF%B9%E8%B1%A1/" rel="next" title="对象和类对象">
+                <i class="fa fa-chevron-left"></i> 对象和类对象
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <h3 id="知识点总结"><a href="#知识点总结" class="headerlink" title="知识点总结"></a>知识点总结</h3><p><strong>OC实例对象的本质:</strong></p>
-<p>本质就是是结构体，且只有一个内容-isa指针，指向该类本身。</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// Represents an instance of a class.</span></span><br><span class="line"><span class="keyword">struct</span> objc_object &#123;</span><br><span class="line">    Class isa  OBJC_ISA_AVAILABILITY;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// A pointer to an instance of a class.</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_object *<span class="keyword">id</span>;</span><br></pre></td></tr></table></figure>
-<p><strong>类对象(objc_class)</strong></p>
-<p><code>Objective-C</code>类是由<code>Class</code>类型来表示的，它实际上是一个指向<code>objc_class</code>结构体的指针。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">objc_class</span> *<span class="title">Class</span>;</span></span><br></pre></td></tr></table></figure>
-<p>查看<code>objc/runtime.h</code>中<code>objc_class</code>结构体的定义如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">objc_class</span> &#123;</span></span><br><span class="line">    Class _Nonnull isa  OBJC_ISA_AVAILABILITY;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> !__OBJC2__</span></span><br><span class="line">    Class _Nullable super_class                              OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> * _Nonnull name                               OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">long</span> version                                             OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">long</span> info                                                OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">long</span> instance_size                                       OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">objc_ivar_list</span> * _<span class="title">Nullable</span> <span class="title">ivars</span>                  <span class="title">OBJC2_UNAVAILABLE</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">objc_method_list</span> * _<span class="title">Nullable</span> * _<span class="title">Nullable</span> <span class="title">methodLists</span>                    <span class="title">OBJC2_UNAVAILABLE</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">objc_cache</span> * _<span class="title">Nonnull</span> <span class="title">cache</span>                       <span class="title">OBJC2_UNAVAILABLE</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">objc_protocol_list</span> * _<span class="title">Nullable</span> <span class="title">protocols</span>          <span class="title">OBJC2_UNAVAILABLE</span>;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">&#125; OBJC2_UNAVAILABLE;</span><br></pre></td></tr></table></figure>
-<p>类对象的isa指针指向元类（metaclass）</p>
-<p><strong>元类的isa指针指向root元类（NSObject的metaclass）</strong></p>
-<p><strong>root元类的isa指向自己</strong></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/301129-cc9c0a7ffb147fed.png?imageMogr2/auto-orient/strip|imageView2/2/w/847" alt="img" style="zoom: 50%;" /></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -559,212 +461,11 @@
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/27/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="shihao">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ShiHao">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/27/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/" itemprop="url">iOS内存区域</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-27T23:33:14+08:00">
-                2018-07-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/" itemprop="url" rel="index">
-                    <span itemprop="name">code</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h6 id="iOS内存存放的几大区域"><a href="#iOS内存存放的几大区域" class="headerlink" title="iOS内存存放的几大区域"></a>iOS内存存放的几大区域</h6><ol>
-<li>栈区(stack)<br>由编译器自动分配并释放，存放<code>函数的参数值，局部变量</code>等。也就是说我们函数括弧“{}”中定义的变量（但不包括static声明的变量）<br>栈是系统数据结构，对应线程/进程是唯一的。优点是快速高效，缺点时有限制，数据不灵活。</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 举例</span></span><br><span class="line">- (<span class="keyword">void</span>)test &#123;</span><br><span class="line">     <span class="keyword">int</span> a= <span class="number">10</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>堆区(heap)<br>由程序员手动分配和释放，OC一般通过new方法创建对象 ,一般由程序员分配释放，若程序员不释放，程序结束时,可能由OS回收 。（MRC和ARC）</li>
-</ol>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 举例</span></span><br><span class="line"><span class="built_in">NSObject</span> *obj = [<span class="built_in">NSObject</span> new];</span><br></pre></td></tr></table></figure>
-<ol>
-<li>全局区(static静态区)<br>存放<code>未初始化的全局变量和静态变量</code>, 程序结束后由系统释放。</li>
-</ol>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 举例</span></span><br><span class="line"><span class="keyword">int</span> a;</span><br><span class="line"><span class="built_in">NSString</span> *str;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> c = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>文字常量区<br>存放<code>已经初始化的常量字符串</code>，程序结束后由系统释放。</li>
-</ol>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 举例</span></span><br><span class="line"><span class="built_in">NSString</span> *str = <span class="string">@"Hello world"</span>;</span><br></pre></td></tr></table></figure>
-<ol>
-<li>代码区<br>存放函数的二进制代码</li>
-</ol>
-<h6 id="三、全部代码"><a href="#三、全部代码" class="headerlink" title="三、全部代码"></a>三、全部代码</h6><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a; <span class="comment">// 全局区</span></span><br><span class="line"><span class="built_in">NSString</span> *b; <span class="comment">// 全局区</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span>  c = <span class="number">100</span>;  <span class="comment">// 全局区</span></span><br><span class="line">- (<span class="keyword">void</span>)test &#123;</span><br><span class="line">    <span class="keyword">int</span> d = <span class="number">100</span>; <span class="comment">// 栈区</span></span><br><span class="line">    <span class="built_in">NSObject</span> *obj = [[<span class="built_in">NSObject</span> alloc]init]; <span class="comment">//堆区</span></span><br><span class="line">    <span class="built_in">NSString</span> *str = <span class="string">@"123"</span>;<span class="comment">//常量区</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<p>1.栈区(stack) 由编译器自动分配并释放，存放函数的参数值，局部变量等。栈是系统数据结构，对应线程/进程是唯一的。优点是快速高效，缺点时有限制，数据不灵活。［先进后出］</p>
-<p>栈空间分静态分配 和动态分配两种。</p>
-<p><img src="https:////upload-images.jianshu.io/upload_images/3355775-3d12b1084c6c1a47.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/700" alt="img"></p>
-<p>堆区(heap) 由程序员分配和释放，如果程序员不释放，程序结束时，可能会由操作系统回收 ，比如在ios 中 alloc 都是存放在堆中。</p>
-<p>优点是灵活方便，数据适应面广泛，但是效率有一定降低。</p>
-<p><img src="https:////upload-images.jianshu.io/upload_images/3355775-57eb59c93191147b.png?imageMogr2/auto-orient/strip|imageView2/2/w/700" alt="img"></p>
-<p>虽然程序结束时所有的数据空间都会被释放回系统，但是精确的申请内存，释放内存匹配是良好程序的基本要素。</p>
-<p>3.全局区(静态区) (static) 全局变量和静态变量的存储是放在一起的，初始化的全局变量和静态变量存放在一块区域，未初始化的全局变量和静态变量在相邻的另一块区域，程序结束后有系统释放。</p>
-<p><img src="https:////upload-images.jianshu.io/upload_images/3355775-79f374d1fceccb11.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/700" alt="img"></p>
-<p>4.文字常量区 存放常量字符串，程序结束后由系统释放；</p>
-<p>5.代码区 存放函数的二进制代码</p>
-<p><strong>大致如图：</strong></p>
-<p><img src="https:////upload-images.jianshu.io/upload_images/3355775-40cb793eb73433d3.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/700" alt="img"></p>
-<p><img src="https:////upload-images.jianshu.io/upload_images/3355775-00eac85331ef90f2.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/700" alt="img"></p>
-<p>例子代码：</p>
-<p><img src="https:////upload-images.jianshu.io/upload_images/3355775-ca7a60d81be58a78.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/700" alt="img"></p>
-<p><strong>可能被追问的问题一：</strong></p>
-<p><strong>1.栈区 (stack [stæk]): 由编译器自动分配释放</strong></p>
-<p>局部变量是保存在栈区的</p>
-<p>方法调用的实参也是保存在栈区的</p>
-<p><strong>2.堆区 (heap [hiːp]): 由程序员分配释放，若程序员不释放，会出现内存泄漏，赋值语句右侧 使用 new 方法创建的对象，被创建对象的所有 成员变量！</strong></p>
-<p><strong>3.BSS 段 : 程序结束后由系统释放</strong></p>
-<p><strong>4.数据段 : 程序结束后由系统释放</strong></p>
-<p><strong>5.代码段:程序结束后由系统释放</strong></p>
-<p><strong>程序编译链接 后的二进制可执行代码</strong></p>
-<p><strong>可能被追问的问题二：</strong></p>
-<p><strong>比如申请后的系统是如何响应的？</strong></p>
-<p>栈：存储每一个函数在执行的时候都会向操作系统索要资源，栈区就是函数运行时的内存，栈区中的变量由编译器负责分配和释放，内存随着函数的运行分配，随着函数的结束而释放，由系统自动完成。</p>
-<p>注意：只要栈的剩余空间大于所申请空间，系统将为程序提供内存，否则将报异常提示栈溢出。</p>
-<p>堆：</p>
-<p>1.首先应该知道操作系统有一个记录空闲内存地址的链表。</p>
-<p>2.当系统收到程序的申请时，会遍历该链表，寻找第一个空间大于所申请空间的堆结点，然后将该结点从空闲结点链表中删除，并将该结点的空间分配给程序。</p>
-<p>3 .由于找到的堆结点的大小不一定正好等于申请的大小，系统会自动的将多余的那部分重新放入空闲链表中</p>
-<p><strong>可能被追问的问题三：</strong></p>
-<p><strong>比如：申请大小的限制是怎样的？</strong></p>
-<p>栈：栈是向低地址扩展的数据结构，是一块连续的内存的区域。是栈顶的地址和栈的最大容量是系统预先规定好的，栈的大小是2M（也有的说是1M，总之是一个编译时就确定的常数 ) ,如果申请的空间超过栈的剩余空间时，将提示overflow。因此，能从栈获得的空间较小。</p>
-<p>堆：堆是向高地址扩展的数据结构，是不连续的内存区域。这是由于系统是用链表来存储的空闲内存地址的，自然是不连续的，而链表的遍历方向是由低地址向高地址。堆的大小受限于计算机系统中有效的虚拟内存。由此可见，堆获得的空间比较灵活，也比较大。</p>
-<p><img src="https:////upload-images.jianshu.io/upload_images/3355775-a0cf21a6b6a26244.png?imageMogr2/auto-orient/strip|imageView2/2/w/284" alt="img"></p>
-<p>栈：由系统自动分配，速度较快，不会产生内存碎片</p>
-<p>堆：是由alloc分配的内存，速度比较慢，而且容易产生内存碎片，不过用起来最方便</p>
-
-          
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
 
 
           </div>
@@ -772,6 +473,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -792,8 +497,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -844,6 +558,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-重点概念"><span class="nav-number">1.</span> <span class="nav-text">1 重点概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-结点概念"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 结点概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-树结点声明"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 树结点声明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-树"><span class="nav-number">2.</span> <span class="nav-text">2 树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-定义"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-结点的度"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 结点的度</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-结点关系"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.3 结点关系</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-结点层次"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.4 结点层次</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-树的深度"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.5 树的深度</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-二叉树"><span class="nav-number">3.</span> <span class="nav-text">3 二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-定义"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-二叉树特点"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 二叉树特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-二叉树性质"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 二叉树性质</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-斜树"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 斜树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-满二叉树"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 满二叉树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-完全二叉树"><span class="nav-number">3.6.</span> <span class="nav-text">3.6 完全二叉树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-二叉树的存储结构"><span class="nav-number">3.7.</span> <span class="nav-text">3.7 二叉树的存储结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-7-1-顺序存储"><span class="nav-number">3.7.1.</span> <span class="nav-text">3.7.1 顺序存储</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-7-2-二叉链表"><span class="nav-number">3.7.2.</span> <span class="nav-text">3.7.2 二叉链表</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-8-二叉树遍历"><span class="nav-number">3.8.</span> <span class="nav-text">3.8 二叉树遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-8-1-定义"><span class="nav-number">3.8.1.</span> <span class="nav-text">3.8.1 定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-8-2-前序遍历"><span class="nav-number">3.8.2.</span> <span class="nav-text">3.8.2 前序遍历</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-8-3-中序遍历"><span class="nav-number">3.8.3.</span> <span class="nav-text">3.8.3 中序遍历</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-8-4-后序遍历"><span class="nav-number">3.8.4.</span> <span class="nav-text">3.8.4 后序遍历</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-8-5-层次遍历"><span class="nav-number">3.8.5.</span> <span class="nav-text">3.8.5 层次遍历</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-8-6-遍历常考考点"><span class="nav-number">3.8.6.</span> <span class="nav-text">3.8.6 遍历常考考点</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -984,6 +714,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
