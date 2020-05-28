@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="Copy与mutableCopy：1. 相同点 都是将原有对象进行深拷贝（狭义）  这里的狭义上的深拷贝指的是在不考虑编译器在编译时对不可变对象进行copy时采取的优化策略：即将不可变对象的地址直接赋值给拷贝对象，因为不可变对象无法进行修改，也就不存在拷贝后原值改变的情况，所以为了效率，即不再重新开辟空间，编译器对不可变对象采取了浅拷贝的方式。  浅拷贝 ：只是对指针的拷贝，拷贝后两个指针指向同一">
+<meta name="description" content="SELSEL又叫选择器，是表示一个方法的selector的指针，是一个方法的编号。 用于表示运行时方法的名字，Objective-C在编译时，会依据每一个方法的名字、参数序列，生成一个唯一的标识，这个标识就是SEL。工程中的所有的SEL组成一个Set集合，SEL是唯一的。只要方法名一样（参数类型可以不一致），它的值就是一样的，不管这个方法定义于哪个类，是不是实例方法。不同的类可以拥有相同的sele">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Copy与mutableCopy">
-<meta property="og:url" content="http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/index.html">
+<meta property="og:title" content="SEL">
+<meta property="og:url" content="http://yoursite.com/2020/05/27/SEL/index.html">
 <meta property="og:site_name" content="ShiHao">
-<meta property="og:description" content="Copy与mutableCopy：1. 相同点 都是将原有对象进行深拷贝（狭义）  这里的狭义上的深拷贝指的是在不考虑编译器在编译时对不可变对象进行copy时采取的优化策略：即将不可变对象的地址直接赋值给拷贝对象，因为不可变对象无法进行修改，也就不存在拷贝后原值改变的情况，所以为了效率，即不再重新开辟空间，编译器对不可变对象采取了浅拷贝的方式。  浅拷贝 ：只是对指针的拷贝，拷贝后两个指针指向同一">
-<meta property="article:published_time" content="2017-12-20T12:11:19.000Z">
-<meta property="article:modified_time" content="2020-05-26T02:43:02.855Z">
+<meta property="og:description" content="SELSEL又叫选择器，是表示一个方法的selector的指针，是一个方法的编号。 用于表示运行时方法的名字，Objective-C在编译时，会依据每一个方法的名字、参数序列，生成一个唯一的标识，这个标识就是SEL。工程中的所有的SEL组成一个Set集合，SEL是唯一的。只要方法名一样（参数类型可以不一致），它的值就是一样的，不管这个方法定义于哪个类，是不是实例方法。不同的类可以拥有相同的sele">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1756292-87c4409374759a53.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/820">
+<meta property="article:published_time" content="2020-05-27T10:32:08.843Z">
+<meta property="article:modified_time" content="2020-05-28T07:22:53.347Z">
 <meta property="article:author" content="shihao">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1756292-87c4409374759a53.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/820">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/12/20/copy和mutablecopy/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/05/27/SEL/"/>
 
 
 
 
 
-  <title>Copy与mutableCopy | ShiHao</title>
+  <title>SEL | ShiHao</title>
   
 
 
@@ -231,7 +233,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/27/SEL/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="shihao">
@@ -248,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Copy与mutableCopy</h1>
+          <h1 class="post-title" itemprop="name headline">SEL</h1>
         
 
         <div class="post-meta">
@@ -260,8 +262,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-20T20:11:19+08:00">
-                2017-12-20
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-27T18:32:08+08:00">
+                2020-05-27
               </time>
             
 
@@ -270,28 +272,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/code/" itemprop="url" rel="index">
-                    <span itemprop="name">code</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -320,34 +300,19 @@
       
 
       
-        <h2 id="Copy与mutableCopy："><a href="#Copy与mutableCopy：" class="headerlink" title="Copy与mutableCopy："></a>Copy与mutableCopy：</h2><h2 id="1-相同点"><a href="#1-相同点" class="headerlink" title="1. 相同点"></a>1. 相同点</h2><ul>
-<li><strong>都是将原有对象进行深拷贝（狭义）</strong></li>
-</ul>
-<p><em>这里的狭义上的深拷贝指的是在不考虑编译器在编译时对不可变对象进行copy时采取的优化策略：即将不可变对象的地址直接赋值给拷贝对象，因为不可变对象无法进行修改，也就不存在拷贝后原值改变的情况，所以为了效率，即不再重新开辟空间，编译器对不可变对象采取了浅拷贝的方式</em>。</p>
-<blockquote>
-<p><strong>浅拷贝</strong> ：只是对指针的拷贝，拷贝后两个指针指向同一个内存空间。<br><strong>深拷贝</strong> ：不但对指针进行拷贝，而且对指针指向的内容进行拷贝，经深拷贝后的指针是指向两个不同地址的指针。</p>
-</blockquote>
-<ul>
-<li><strong>都是为了防止因原对象改变而造成拷贝对象改变的策略</strong></li>
-</ul>
-<p><em>不可变对象除外</em>。</p>
-<h2 id="2-不同点"><a href="#2-不同点" class="headerlink" title="2.不同点"></a>2.不同点</h2><ul>
-<li><strong>无论是可变对象还是不可变对象进行copy，返回值一律是不可变对象（与被拷贝对象无关）</strong></li>
-</ul>
-<p><em>可变对象copy后自然会拷贝一个新的地址给不可变类型的拷贝对象（深拷贝），而不可变对象因为优化策略则为浅拷贝</em></p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">objective-c <span class="built_in">NSMutableString</span>* mstr=[<span class="built_in">NSMutableString</span> stringWithString:<span class="string">@"1"</span>];</span><br><span class="line"><span class="built_in">NSString</span> *str=[mstr <span class="keyword">copy</span>]; <span class="comment">//将对象copy给不可变对象 </span></span><br><span class="line">[mstr appendFormat:<span class="string">@"2"</span>];<span class="comment">//因为深拷贝，str不会因mstr改变而改变 </span></span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,str); <span class="comment">//输出1</span></span><br><span class="line">objective-c <span class="built_in">NSString</span>* str0=<span class="string">@"1"</span>; </span><br><span class="line"><span class="built_in">NSMutableString</span> *str1=[str0 <span class="keyword">copy</span>]; </span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"%p:%p"</span>,str0,str1); <span class="comment">//0x100001040:0x100001040 浅拷贝</span></span><br></pre></td></tr></table></figure>
-<p><em>tips:当拷贝对象为可变对象时，使用copy会导致crash（在copy后使用append方法试图改变拷贝对象时）</em></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">objective-c NSMutableString* mstr0&#x3D;[NSMutableString stringWithString:@&quot;1&quot;]; </span><br><span class="line">NSMutableString *mstr1&#x3D;[mstr0 copy]; &#x2F;&#x2F;将对象copy给可变对象 </span><br><span class="line">[mstr0 appendFormat:@&quot;2&quot;];&#x2F;&#x2F;因为深拷贝，mstr1不会因mstr0改变而改变 </span><br><span class="line">NSLog(@&quot;%@&quot;,str); &#x2F;&#x2F;输出1 </span><br><span class="line">[mstr1 appendFormat:@&quot;2&quot;];&#x2F;&#x2F;crash,因为经过copy后mstr1已经变为了不可变对象（多态，NSMutableString是NSString的子类）</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>无论是可变对象还是不可变对象进行mutableCopy，返回值一律是可变对象（与被拷贝对象无关，且狭义上深拷贝）</strong></li>
-</ul>
-<p><em>狭义上的深拷贝指的是对于非容器类，而容器类只是深拷贝容器，而容器内的对象则为指针拷贝（浅拷贝）</em></p>
-<blockquote>
-<p>容器类:NSArray、NSDictionary、NSSet<br>如果要对容器类进行完全深拷贝，一般使用对象方法：-(id)initWithArray: copyItems:</p>
-</blockquote>
-<p><em>tips:当拷贝对象为不可变对象时，使用mutableCopy会将不可变对象改为可变对象</em></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">objective-c NSString* str0&#x3D;@&quot;1&quot;; </span><br><span class="line">NSString *str1&#x3D;[str0 mutableCopy]; &#x2F;&#x2F;将对象mutableCopy给不可变对象 </span><br><span class="line">[(NSMutableString *)str1 appendFormat:@&quot;2&quot;];&#x2F;&#x2F;这里的str已经为可变对象，但编译器因为看不到可变对象的appendFormat方法，所以这里需要强转换为NSMutableString（若str这里不是真正指向可变对象，则会报错，但这里未报错，所以str已经指向了一个可变对象，即深拷贝） </span><br><span class="line">NSLog(@&quot;%@&quot;,str1); &#x2F;&#x2F;输出12</span><br></pre></td></tr></table></figure>
-<h2 id="3-总结"><a href="#3-总结" class="headerlink" title="3.总结"></a>3.总结</h2><p><strong>无论是copy还是mutableCopy都可以看作是为了让被拷贝对象与拷贝对象进行分离，互不干扰的一种策略（通过深拷贝实现，虽然有两个例外：编译器优化（其实无影响）和容器类的假深拷贝）。只不过一个返回的是不可变对象，而另一个返回的是可变对象，仅此而已</strong></p>
+        <h3 id="SEL"><a href="#SEL" class="headerlink" title="SEL"></a>SEL</h3><p>SEL又叫选择器，是表示一个方法的<code>selector</code>的指针，是一个方法的编号。 用于表示运行时方法的名字，Objective-C在编译时，会依据每一个方法的名字、参数序列，生成一个唯一的标识，这个标识就是SEL。<br>工程中的所有的SEL组成一个Set集合，SEL是唯一的。只要方法名一样（参数类型可以不一致），它的值就是一样的，不管这个方法定义于哪个类，是不是实例方法。<br>不同的类可以拥有相同的selector，不同类的实例对象performSelector相同的selector时，会在各自的方法链表中根据 selector 去查找具体的方法实现IMP, 然后用这个方法实现去执行具体的实现代码。</p>
+<p>方法以selector作为索引，selector的数据类型是SEL，对应每个方法的位置的ID，当我们寻找方法的时候寻找的是方法的ID，存在一个方法和ID对应的methodList表来存储这种对应关系。</p>
+<h6 id="selector-funName关系图："><a href="#selector-funName关系图：" class="headerlink" title="selector-funName关系图："></a>selector-funName关系图：</h6><p><img src="https:////upload-images.jianshu.io/upload_images/1756292-87c4409374759a53.png?imageMogr2/auto-orient/strip|imageView2/2/w/820" alt="img"></p>
+<p>image.png</p>
+<p>编译时，编译器会通过selector来查找</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">myobject funMethod1:para</span>];</span><br></pre></td></tr></table></figure>
+<p>编译之后的方法应是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objc_msgSend(myObject, 8, para);</span><br></pre></td></tr></table></figure>
+<p>这里的objc_msgSend（）函数会使用myObject的isa指针来找到myObject放入类空间结构并在类空间结构中查找selector 8所对应的方法，如果没有找到，那么将使用指向父类的指针找到父类空间结构进行 selector 8方法的查找，如果还没有找到，就继续沿着父类网上找，直到找到，若果一直到NSObject还没有找到，就会抛异常。</p>
+<p>比如说程序里面可以这样写：</p>
+<figure class="highlight plain"><figcaption><span>helper </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#96;&#96;&#96;SEL request &#x3D; getTheSelector();</span><br></pre></td></tr></table></figure>
+<p><code>[helper performSelector:request];</code></p>
+<p>它的实现是基于ObjC runtime. NSObject类实现了这套机制，所以每一个继承于NSObject的类都能自动获得runtime的支持。在这样的一个类中，有一个isa指针，指向 该类定义的数据结构体,这个结构体是由编译器编译时为类（须继承于NSObject）创建的.在这个结构体中有包括了指向其父类类定义的指针以及 Dispatch table. Dispatch table是一张SEL和IMP的对应表。</p>
 
       
     </div>
@@ -372,8 +337,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/08/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="next" title="二叉树复习">
-                <i class="fa fa-chevron-left"></i> 二叉树复习
+              <a href="/2020/05/22/%E7%95%8C%E9%9D%A2%E6%B5%81%E7%95%85%E4%BC%98%E5%8C%96/" rel="next" title="界面流畅优化">
+                <i class="fa fa-chevron-left"></i> 界面流畅优化
               </a>
             
           </div>
@@ -381,10 +346,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/" rel="prev" title="iOS内存区域">
-                iOS内存区域 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -507,7 +468,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Copy与mutableCopy："><span class="nav-number">1.</span> <span class="nav-text">Copy与mutableCopy：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-相同点"><span class="nav-number">2.</span> <span class="nav-text">1. 相同点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-不同点"><span class="nav-number">3.</span> <span class="nav-text">2.不同点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-总结"><span class="nav-number">4.</span> <span class="nav-text">3.总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#SEL"><span class="nav-number">1.</span> <span class="nav-text">SEL</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#selector-funName关系图："><span class="nav-number">1.0.0.1.</span> <span class="nav-text">selector-funName关系图：</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
