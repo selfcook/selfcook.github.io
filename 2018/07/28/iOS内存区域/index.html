@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="iOS内存存放的几大区域 栈区(stack)由编译器自动分配并释放，存放函数的参数值，局部变量等。也就是说我们函数括弧“{}”中定义的变量（但不包括static声明的变量）栈是系统数据结构，对应线程&#x2F;进程是唯一的。优点是快速高效，缺点时有限制，数据不灵活。  1234&#x2F;&#x2F; 举例- (void)test &amp;#123;     int a&#x3D; 10;&amp;#125;  堆区(heap)由程序员手动分配和释放">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS内存区域">
+<meta property="og:url" content="http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/index.html">
+<meta property="og:site_name" content="ShiHao">
+<meta property="og:description" content="iOS内存存放的几大区域 栈区(stack)由编译器自动分配并释放，存放函数的参数值，局部变量等。也就是说我们函数括弧“{}”中定义的变量（但不包括static声明的变量）栈是系统数据结构，对应线程&#x2F;进程是唯一的。优点是快速高效，缺点时有限制，数据不灵活。  1234&#x2F;&#x2F; 举例- (void)test &amp;#123;     int a&#x3D; 10;&amp;#125;  堆区(heap)由程序员手动分配和释放">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3355775-3d12b1084c6c1a47.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3355775-57eb59c93191147b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3355775-79f374d1fceccb11.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3355775-40cb793eb73433d3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3355775-00eac85331ef90f2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3355775-ca7a60d81be58a78.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3355775-a0cf21a6b6a26244.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/284">
+<meta property="article:published_time" content="2018-07-28T15:33:14.000Z">
+<meta property="article:modified_time" content="2020-05-25T16:09:38.232Z">
+<meta property="article:author" content="shihao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/3355775-3d12b1084c6c1a47.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/rick.JPG">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/rick.JPG" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/rick.JPG">
+          
+        
+    
+    <!-- title -->
+    <title>iOS内存区域</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/07/14/%E5%AF%B9%E8%B1%A1%E5%92%8C%E7%B1%BB%E5%AF%B9%E8%B1%A1/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/04/18/%E7%95%8C%E9%9D%A2%E6%B5%81%E7%95%85%E4%BC%98%E5%8C%96/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/&text=iOS内存区域" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/&title=iOS内存区域" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/&is_video=false&description=iOS内存区域" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=iOS内存区域&body=Check out this article: http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/&title=iOS内存区域" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/&title=iOS内存区域" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/&title=iOS内存区域" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/&title=iOS内存区域" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/&name=iOS内存区域&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/&t=iOS内存区域" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link" href="#iOS内存存放的几大区域"><span class="toc-number">1.</span> <span class="toc-text">iOS内存存放的几大区域</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#三、全部代码"><span class="toc-number">2.</span> <span class="toc-text">三、全部代码</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        iOS内存区域
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">ShiHao</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-07-28T15:33:14.000Z" itemprop="datePublished">2018-07-28</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/code/">code</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h6 id="iOS内存存放的几大区域"><a href="#iOS内存存放的几大区域" class="headerlink" title="iOS内存存放的几大区域"></a>iOS内存存放的几大区域</h6><ol>
+<li>栈区(stack)<br>由编译器自动分配并释放，存放<code>函数的参数值，局部变量</code>等。也就是说我们函数括弧“{}”中定义的变量（但不包括static声明的变量）<br>栈是系统数据结构，对应线程/进程是唯一的。优点是快速高效，缺点时有限制，数据不灵活。</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 举例</span></span><br><span class="line">- (<span class="keyword">void</span>)test &#123;</span><br><span class="line">     <span class="keyword">int</span> a= <span class="number">10</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>堆区(heap)<br>由程序员手动分配和释放，OC一般通过new方法创建对象 ,一般由程序员分配释放，若程序员不释放，程序结束时,可能由OS回收 。（MRC和ARC）</li>
+</ol>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 举例</span></span><br><span class="line"><span class="built_in">NSObject</span> *obj = [<span class="built_in">NSObject</span> new];</span><br></pre></td></tr></table></figure>
+<ol>
+<li>全局区(static静态区)<br>存放<code>未初始化的全局变量和静态变量</code>, 程序结束后由系统释放。</li>
+</ol>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 举例</span></span><br><span class="line"><span class="keyword">int</span> a;</span><br><span class="line"><span class="built_in">NSString</span> *str;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> c = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>文字常量区<br>存放<code>已经初始化的常量字符串</code>，程序结束后由系统释放。</li>
+</ol>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 举例</span></span><br><span class="line"><span class="built_in">NSString</span> *str = <span class="string">@"Hello world"</span>;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>代码区<br>存放函数的二进制代码</li>
+</ol>
+<h6 id="三、全部代码"><a href="#三、全部代码" class="headerlink" title="三、全部代码"></a>三、全部代码</h6><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a; <span class="comment">// 全局区</span></span><br><span class="line"><span class="built_in">NSString</span> *b; <span class="comment">// 全局区</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span>  c = <span class="number">100</span>;  <span class="comment">// 全局区</span></span><br><span class="line">- (<span class="keyword">void</span>)test &#123;</span><br><span class="line">    <span class="keyword">int</span> d = <span class="number">100</span>; <span class="comment">// 栈区</span></span><br><span class="line">    <span class="built_in">NSObject</span> *obj = [[<span class="built_in">NSObject</span> alloc]init]; <span class="comment">//堆区</span></span><br><span class="line">    <span class="built_in">NSString</span> *str = <span class="string">@"123"</span>;<span class="comment">//常量区</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>1.栈区(stack) 由编译器自动分配并释放，存放函数的参数值，局部变量等。栈是系统数据结构，对应线程/进程是唯一的。优点是快速高效，缺点时有限制，数据不灵活。［先进后出］</p>
+<p>栈空间分静态分配 和动态分配两种。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/3355775-3d12b1084c6c1a47.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/700" alt="img"></p>
+<p>堆区(heap) 由程序员分配和释放，如果程序员不释放，程序结束时，可能会由操作系统回收 ，比如在ios 中 alloc 都是存放在堆中。</p>
+<p>优点是灵活方便，数据适应面广泛，但是效率有一定降低。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/3355775-57eb59c93191147b.png?imageMogr2/auto-orient/strip|imageView2/2/w/700" alt="img"></p>
+<p>虽然程序结束时所有的数据空间都会被释放回系统，但是精确的申请内存，释放内存匹配是良好程序的基本要素。</p>
+<p>3.全局区(静态区) (static) 全局变量和静态变量的存储是放在一起的，初始化的全局变量和静态变量存放在一块区域，未初始化的全局变量和静态变量在相邻的另一块区域，程序结束后有系统释放。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/3355775-79f374d1fceccb11.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/700" alt="img"></p>
+<p>4.文字常量区 存放常量字符串，程序结束后由系统释放；</p>
+<p>5.代码区 存放函数的二进制代码</p>
+<p><strong>大致如图：</strong></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/3355775-40cb793eb73433d3.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/700" alt="img"></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/3355775-00eac85331ef90f2.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/700" alt="img"></p>
+<p>例子代码：</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/3355775-ca7a60d81be58a78.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/700" alt="img"></p>
+<p><strong>可能被追问的问题一：</strong></p>
+<p><strong>1.栈区 (stack [stæk]): 由编译器自动分配释放</strong></p>
+<p>局部变量是保存在栈区的</p>
+<p>方法调用的实参也是保存在栈区的</p>
+<p><strong>2.堆区 (heap [hiːp]): 由程序员分配释放，若程序员不释放，会出现内存泄漏，赋值语句右侧 使用 new 方法创建的对象，被创建对象的所有 成员变量！</strong></p>
+<p><strong>3.BSS 段 : 程序结束后由系统释放</strong></p>
+<p><strong>4.数据段 : 程序结束后由系统释放</strong></p>
+<p><strong>5.代码段:程序结束后由系统释放</strong></p>
+<p><strong>程序编译链接 后的二进制可执行代码</strong></p>
+<p><strong>可能被追问的问题二：</strong></p>
+<p><strong>比如申请后的系统是如何响应的？</strong></p>
+<p>栈：存储每一个函数在执行的时候都会向操作系统索要资源，栈区就是函数运行时的内存，栈区中的变量由编译器负责分配和释放，内存随着函数的运行分配，随着函数的结束而释放，由系统自动完成。</p>
+<p>注意：只要栈的剩余空间大于所申请空间，系统将为程序提供内存，否则将报异常提示栈溢出。</p>
+<p>堆：</p>
+<p>1.首先应该知道操作系统有一个记录空闲内存地址的链表。</p>
+<p>2.当系统收到程序的申请时，会遍历该链表，寻找第一个空间大于所申请空间的堆结点，然后将该结点从空闲结点链表中删除，并将该结点的空间分配给程序。</p>
+<p>3 .由于找到的堆结点的大小不一定正好等于申请的大小，系统会自动的将多余的那部分重新放入空闲链表中</p>
+<p><strong>可能被追问的问题三：</strong></p>
+<p><strong>比如：申请大小的限制是怎样的？</strong></p>
+<p>栈：栈是向低地址扩展的数据结构，是一块连续的内存的区域。是栈顶的地址和栈的最大容量是系统预先规定好的，栈的大小是2M（也有的说是1M，总之是一个编译时就确定的常数 ) ,如果申请的空间超过栈的剩余空间时，将提示overflow。因此，能从栈获得的空间较小。</p>
+<p>堆：堆是向高地址扩展的数据结构，是不连续的内存区域。这是由于系统是用链表来存储的空闲内存地址的，自然是不连续的，而链表的遍历方向是由低地址向高地址。堆的大小受限于计算机系统中有效的虚拟内存。由此可见，堆获得的空间比较灵活，也比较大。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/3355775-a0cf21a6b6a26244.png?imageMogr2/auto-orient/strip|imageView2/2/w/284" alt="img"></p>
+<p>栈：由系统自动分配，速度较快，不会产生内存碎片</p>
+<p>堆：是由alloc分配的内存，速度比较慢，而且容易产生内存碎片，不过用起来最方便</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link" href="#iOS内存存放的几大区域"><span class="toc-number">1.</span> <span class="toc-text">iOS内存存放的几大区域</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#三、全部代码"><span class="toc-number">2.</span> <span class="toc-text">三、全部代码</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/&text=iOS内存区域" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/&title=iOS内存区域" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/&is_video=false&description=iOS内存区域" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=iOS内存区域&body=Check out this article: http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/&title=iOS内存区域" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/&title=iOS内存区域" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/&title=iOS内存区域" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/&title=iOS内存区域" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/&name=iOS内存区域&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2018/07/28/iOS%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/&t=iOS内存区域" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020
+    shihao
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

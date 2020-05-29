@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Copy与mutableCopy：1. 相同点 都是将原有对象进行深拷贝（狭义）  这里的狭义上的深拷贝指的是在不考虑编译器在编译时对不可变对象进行copy时采取的优化策略：即将不可变对象的地址直接赋值给拷贝对象，因为不可变对象无法进行修改，也就不存在拷贝后原值改变的情况，所以为了效率，即不再重新开辟空间，编译器对不可变对象采取了浅拷贝的方式。  浅拷贝 ：只是对指针的拷贝，拷贝后两个指针指向同一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Copy与mutableCopy">
+<meta property="og:url" content="http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/index.html">
+<meta property="og:site_name" content="ShiHao">
+<meta property="og:description" content="Copy与mutableCopy：1. 相同点 都是将原有对象进行深拷贝（狭义）  这里的狭义上的深拷贝指的是在不考虑编译器在编译时对不可变对象进行copy时采取的优化策略：即将不可变对象的地址直接赋值给拷贝对象，因为不可变对象无法进行修改，也就不存在拷贝后原值改变的情况，所以为了效率，即不再重新开辟空间，编译器对不可变对象采取了浅拷贝的方式。  浅拷贝 ：只是对指针的拷贝，拷贝后两个指针指向同一">
+<meta property="article:published_time" content="2017-12-20T12:11:19.000Z">
+<meta property="article:modified_time" content="2020-05-26T02:43:02.855Z">
+<meta property="article:author" content="shihao">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/rick.JPG">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/rick.JPG" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/rick.JPG">
+          
+        
+    
+    <!-- title -->
+    <title>Copy与mutableCopy</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/04/18/%E7%95%8C%E9%9D%A2%E6%B5%81%E7%95%85%E4%BC%98%E5%8C%96/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/09/08/%E4%BA%8C%E5%8F%89%E6%A0%91/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/&text=Copy与mutableCopy" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/&title=Copy与mutableCopy" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/&is_video=false&description=Copy与mutableCopy" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Copy与mutableCopy&body=Check out this article: http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/&title=Copy与mutableCopy" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/&title=Copy与mutableCopy" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/&title=Copy与mutableCopy" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/&title=Copy与mutableCopy" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/&name=Copy与mutableCopy&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/&t=Copy与mutableCopy" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Copy与mutableCopy："><span class="toc-number">1.</span> <span class="toc-text">Copy与mutableCopy：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-相同点"><span class="toc-number">2.</span> <span class="toc-text">1. 相同点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-不同点"><span class="toc-number">3.</span> <span class="toc-text">2.不同点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-总结"><span class="toc-number">4.</span> <span class="toc-text">3.总结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Copy与mutableCopy
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">ShiHao</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-12-20T12:11:19.000Z" itemprop="datePublished">2017-12-20</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/code/">code</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Copy与mutableCopy："><a href="#Copy与mutableCopy：" class="headerlink" title="Copy与mutableCopy："></a>Copy与mutableCopy：</h2><h2 id="1-相同点"><a href="#1-相同点" class="headerlink" title="1. 相同点"></a>1. 相同点</h2><ul>
+<li><strong>都是将原有对象进行深拷贝（狭义）</strong></li>
+</ul>
+<p><em>这里的狭义上的深拷贝指的是在不考虑编译器在编译时对不可变对象进行copy时采取的优化策略：即将不可变对象的地址直接赋值给拷贝对象，因为不可变对象无法进行修改，也就不存在拷贝后原值改变的情况，所以为了效率，即不再重新开辟空间，编译器对不可变对象采取了浅拷贝的方式</em>。</p>
+<blockquote>
+<p><strong>浅拷贝</strong> ：只是对指针的拷贝，拷贝后两个指针指向同一个内存空间。<br><strong>深拷贝</strong> ：不但对指针进行拷贝，而且对指针指向的内容进行拷贝，经深拷贝后的指针是指向两个不同地址的指针。</p>
+</blockquote>
+<ul>
+<li><strong>都是为了防止因原对象改变而造成拷贝对象改变的策略</strong></li>
+</ul>
+<p><em>不可变对象除外</em>。</p>
+<h2 id="2-不同点"><a href="#2-不同点" class="headerlink" title="2.不同点"></a>2.不同点</h2><ul>
+<li><strong>无论是可变对象还是不可变对象进行copy，返回值一律是不可变对象（与被拷贝对象无关）</strong></li>
+</ul>
+<p><em>可变对象copy后自然会拷贝一个新的地址给不可变类型的拷贝对象（深拷贝），而不可变对象因为优化策略则为浅拷贝</em></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">objective-c <span class="built_in">NSMutableString</span>* mstr=[<span class="built_in">NSMutableString</span> stringWithString:<span class="string">@"1"</span>];</span><br><span class="line"><span class="built_in">NSString</span> *str=[mstr <span class="keyword">copy</span>]; <span class="comment">//将对象copy给不可变对象 </span></span><br><span class="line">[mstr appendFormat:<span class="string">@"2"</span>];<span class="comment">//因为深拷贝，str不会因mstr改变而改变 </span></span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,str); <span class="comment">//输出1</span></span><br><span class="line">objective-c <span class="built_in">NSString</span>* str0=<span class="string">@"1"</span>; </span><br><span class="line"><span class="built_in">NSMutableString</span> *str1=[str0 <span class="keyword">copy</span>]; </span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"%p:%p"</span>,str0,str1); <span class="comment">//0x100001040:0x100001040 浅拷贝</span></span><br></pre></td></tr></table></figure>
+<p><em>tips:当拷贝对象为可变对象时，使用copy会导致crash（在copy后使用append方法试图改变拷贝对象时）</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">objective-c NSMutableString* mstr0&#x3D;[NSMutableString stringWithString:@&quot;1&quot;]; </span><br><span class="line">NSMutableString *mstr1&#x3D;[mstr0 copy]; &#x2F;&#x2F;将对象copy给可变对象 </span><br><span class="line">[mstr0 appendFormat:@&quot;2&quot;];&#x2F;&#x2F;因为深拷贝，mstr1不会因mstr0改变而改变 </span><br><span class="line">NSLog(@&quot;%@&quot;,str); &#x2F;&#x2F;输出1 </span><br><span class="line">[mstr1 appendFormat:@&quot;2&quot;];&#x2F;&#x2F;crash,因为经过copy后mstr1已经变为了不可变对象（多态，NSMutableString是NSString的子类）</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>无论是可变对象还是不可变对象进行mutableCopy，返回值一律是可变对象（与被拷贝对象无关，且狭义上深拷贝）</strong></li>
+</ul>
+<p><em>狭义上的深拷贝指的是对于非容器类，而容器类只是深拷贝容器，而容器内的对象则为指针拷贝（浅拷贝）</em></p>
+<blockquote>
+<p>容器类:NSArray、NSDictionary、NSSet<br>如果要对容器类进行完全深拷贝，一般使用对象方法：-(id)initWithArray: copyItems:</p>
+</blockquote>
+<p><em>tips:当拷贝对象为不可变对象时，使用mutableCopy会将不可变对象改为可变对象</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">objective-c NSString* str0&#x3D;@&quot;1&quot;; </span><br><span class="line">NSString *str1&#x3D;[str0 mutableCopy]; &#x2F;&#x2F;将对象mutableCopy给不可变对象 </span><br><span class="line">[(NSMutableString *)str1 appendFormat:@&quot;2&quot;];&#x2F;&#x2F;这里的str已经为可变对象，但编译器因为看不到可变对象的appendFormat方法，所以这里需要强转换为NSMutableString（若str这里不是真正指向可变对象，则会报错，但这里未报错，所以str已经指向了一个可变对象，即深拷贝） </span><br><span class="line">NSLog(@&quot;%@&quot;,str1); &#x2F;&#x2F;输出12</span><br></pre></td></tr></table></figure>
+<h2 id="3-总结"><a href="#3-总结" class="headerlink" title="3.总结"></a>3.总结</h2><p><strong>无论是copy还是mutableCopy都可以看作是为了让被拷贝对象与拷贝对象进行分离，互不干扰的一种策略（通过深拷贝实现，虽然有两个例外：编译器优化（其实无影响）和容器类的假深拷贝）。只不过一个返回的是不可变对象，而另一个返回的是可变对象，仅此而已</strong></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Copy与mutableCopy："><span class="toc-number">1.</span> <span class="toc-text">Copy与mutableCopy：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-相同点"><span class="toc-number">2.</span> <span class="toc-text">1. 相同点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-不同点"><span class="toc-number">3.</span> <span class="toc-text">2.不同点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-总结"><span class="toc-number">4.</span> <span class="toc-text">3.总结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/&text=Copy与mutableCopy" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/&title=Copy与mutableCopy" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/&is_video=false&description=Copy与mutableCopy" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Copy与mutableCopy&body=Check out this article: http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/&title=Copy与mutableCopy" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/&title=Copy与mutableCopy" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/&title=Copy与mutableCopy" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/&title=Copy与mutableCopy" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/&name=Copy与mutableCopy&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2017/12/20/copy%E5%92%8Cmutablecopy/&t=Copy与mutableCopy" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020
+    shihao
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
