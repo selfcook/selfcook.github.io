@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="SELSEL又叫选择器，是表示一个方法的selector的指针，是一个方法的编号。 用于表示运行时方法的名字，Objective-C在编译时，会依据每一个方法的名字、参数序列，生成一个唯一的标识，这个标识就是SEL。工程中的所有的SEL组成一个Set集合，SEL是唯一的。只要方法名一样（参数类型可以不一致），它的值就是一样的，不管这个方法定义于哪个类，是不是实例方法。不同的类可以拥有相同的sele">
+    <meta name="description" content="SELSEL又叫选择器，是表示一个方法的selector的指针，是一个方法的编号。 用于表示运行时方法的名字，Objective-C在编译时，会依据每一个方法的名字、参数序列，生成一个唯一的标识，这个标识就是SEL。工程中的所有的SEL组成一个Set集合，SEL是唯一的。只要方法名一样（参数类型可以不一致），它的值就是一样的，不管这个方法定义于哪个类，是不是实例方法。不同的类可以拥有相同的se">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SEL">
 <meta property="og:url" content="http://yoursite.com/2020/05/27/SEL/index.html">
 <meta property="og:site_name" content="ShiHao">
-<meta property="og:description" content="SELSEL又叫选择器，是表示一个方法的selector的指针，是一个方法的编号。 用于表示运行时方法的名字，Objective-C在编译时，会依据每一个方法的名字、参数序列，生成一个唯一的标识，这个标识就是SEL。工程中的所有的SEL组成一个Set集合，SEL是唯一的。只要方法名一样（参数类型可以不一致），它的值就是一样的，不管这个方法定义于哪个类，是不是实例方法。不同的类可以拥有相同的sele">
+<meta property="og:description" content="SELSEL又叫选择器，是表示一个方法的selector的指针，是一个方法的编号。 用于表示运行时方法的名字，Objective-C在编译时，会依据每一个方法的名字、参数序列，生成一个唯一的标识，这个标识就是SEL。工程中的所有的SEL组成一个Set集合，SEL是唯一的。只要方法名一样（参数类型可以不一致），它的值就是一样的，不管这个方法定义于哪个类，是不是实例方法。不同的类可以拥有相同的se">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1756292-87c4409374759a53.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/820">
 <meta property="article:published_time" content="2020-05-27T10:32:08.843Z">
-<meta property="article:modified_time" content="2020-05-29T17:07:27.612Z">
+<meta property="article:modified_time" content="2020-05-30T04:46:49.759Z">
 <meta property="article:author" content="shihao">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1756292-87c4409374759a53.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/820">
@@ -141,7 +141,9 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="SEL"><a href="#SEL" class="headerlink" title="SEL"></a>SEL</h3><p>SEL又叫选择器，是表示一个方法的<code>selector</code>的指针，是一个方法的编号。 用于表示运行时方法的名字，Objective-C在编译时，会依据每一个方法的名字、参数序列，生成一个唯一的标识，这个标识就是SEL。<br>工程中的所有的SEL组成一个Set集合，SEL是唯一的。只要方法名一样（参数类型可以不一致），它的值就是一样的，不管这个方法定义于哪个类，是不是实例方法。<br>不同的类可以拥有相同的selector，不同类的实例对象performSelector相同的selector时，会在各自的方法链表中根据 selector 去查找具体的方法实现IMP, 然后用这个方法实现去执行具体的实现代码。</p>
+    <meta name="referrer" content="no-referrer">
+
+<h3 id="SEL"><a href="#SEL" class="headerlink" title="SEL"></a>SEL</h3><p>SEL又叫选择器，是表示一个方法的<code>selector</code>的指针，是一个方法的编号。 用于表示运行时方法的名字，Objective-C在编译时，会依据每一个方法的名字、参数序列，生成一个唯一的标识，这个标识就是SEL。<br>工程中的所有的SEL组成一个Set集合，SEL是唯一的。只要方法名一样（参数类型可以不一致），它的值就是一样的，不管这个方法定义于哪个类，是不是实例方法。<br>不同的类可以拥有相同的selector，不同类的实例对象performSelector相同的selector时，会在各自的方法链表中根据 selector 去查找具体的方法实现IMP, 然后用这个方法实现去执行具体的实现代码。</p>
 <p>方法以selector作为索引，selector的数据类型是SEL，对应每个方法的位置的ID，当我们寻找方法的时候寻找的是方法的ID，存在一个方法和ID对应的methodList表来存储这种对应关系。</p>
 <h6 id="selector-funName关系图："><a href="#selector-funName关系图：" class="headerlink" title="selector-funName关系图："></a>selector-funName关系图：</h6><p><img src="https:////upload-images.jianshu.io/upload_images/1756292-87c4409374759a53.png?imageMogr2/auto-orient/strip|imageView2/2/w/820" alt="img"></p>
 <p>image.png</p>
