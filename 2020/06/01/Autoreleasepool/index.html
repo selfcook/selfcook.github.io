@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Autorelease原理下面这段代码，相信大家都不陌生，那么我们使用clang -rewrite-objc main.m得到cpp文件，看看是什么样的 12345int main(int argc, char * argv[]) &amp;#123;    @autoreleasepool &amp;#123;        return UIApplicationMain(argc, argv, nil, N">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Autoreleasepool">
+<meta property="og:url" content="http://yoursite.com/2020/06/01/Autoreleasepool/index.html">
+<meta property="og:site_name" content="ShiHao">
+<meta property="og:description" content="Autorelease原理下面这段代码，相信大家都不陌生，那么我们使用clang -rewrite-objc main.m得到cpp文件，看看是什么样的 12345int main(int argc, char * argv[]) &amp;#123;    @autoreleasepool &amp;#123;        return UIApplicationMain(argc, argv, nil, N">
+<meta property="og:image" content="http://yoursite.com/Users/shihao/Library/Application%20Support/typora-user-images/image-20200601162518103.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3279997-993f22dd48d2418a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/720">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3279997-e29b826fa9695457.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/720">
+<meta property="article:published_time" content="2020-06-01T03:38:21.531Z">
+<meta property="article:modified_time" content="2020-06-01T10:10:24.582Z">
+<meta property="article:author" content="shihao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/Users/shihao/Library/Application%20Support/typora-user-images/image-20200601162518103.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/rick.JPG">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/rick.JPG" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/rick.JPG">
+          
+        
+    
+    <!-- title -->
+    <title>Autoreleasepool</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2020/04/18/block%E7%9B%B8%E5%85%B3/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/06/01/Autoreleasepool/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/06/01/Autoreleasepool/&text=Autoreleasepool" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/06/01/Autoreleasepool/&title=Autoreleasepool" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/06/01/Autoreleasepool/&is_video=false&description=Autoreleasepool" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Autoreleasepool&body=Check out this article: http://yoursite.com/2020/06/01/Autoreleasepool/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/06/01/Autoreleasepool/&title=Autoreleasepool" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/06/01/Autoreleasepool/&title=Autoreleasepool" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/06/01/Autoreleasepool/&title=Autoreleasepool" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/06/01/Autoreleasepool/&title=Autoreleasepool" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/06/01/Autoreleasepool/&name=Autoreleasepool&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2020/06/01/Autoreleasepool/&t=Autoreleasepool" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Autorelease原理"><span class="toc-number">1.</span> <span class="toc-text">Autorelease原理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#AutoreleasePoolPage-的结构"><span class="toc-number">1.0.0.0.1.</span> <span class="toc-text">AutoreleasePoolPage 的结构</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#POOL-SENTINEL（哨兵对象）"><span class="toc-number">1.0.0.0.1.1.</span> <span class="toc-text">POOL_SENTINEL（哨兵对象）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#objc-autoreleasePoolPush-方法"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">objc_autoreleasePoolPush 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#page-gt-add-添加对象"><span class="toc-number">1.0.0.1.0.1.</span> <span class="toc-text">page-&gt;add 添加对象</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#autoreleaseFullPage（当前-hotPage-已满）"><span class="toc-number">1.0.0.1.0.2.</span> <span class="toc-text">autoreleaseFullPage（当前 hotPage 已满）</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#autoreleaseNoPage（没有-hotPage"><span class="toc-number">1.0.0.1.0.3.</span> <span class="toc-text">autoreleaseNoPage（没有 hotPage)</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">1.1.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Autoreleasepool
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">ShiHao</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-06-01T03:38:21.531Z" itemprop="datePublished">2020-06-01</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="Autorelease原理"><a href="#Autorelease原理" class="headerlink" title="Autorelease原理"></a>Autorelease原理</h1><p>下面这段代码，相信大家都不陌生，那么我们使用<code>clang -rewrite-objc main.m</code>得到cpp文件，看看是什么样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int main(int argc, char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们找到了下面这个main函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* @autoreleasepool */</span> &#123; __AtAutoreleasePool __autoreleasepool; </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我查看这个结构体</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> __<span class="title">AtAutoreleasePool</span> &#123;</span></span><br><span class="line">  __AtAutoreleasePool() &#123;atautoreleasepoolobj = objc_autoreleasePoolPush();&#125;</span><br><span class="line">  ~__AtAutoreleasePool() &#123;objc_autoreleasePoolPop(atautoreleasepoolobj);&#125;</span><br><span class="line">  <span class="keyword">void</span> * atautoreleasepoolobj;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个结构体会在初始化时调用 objc_autoreleasePoolPush() 方法，会在析构时调用 objc_autoreleasePoolPop 方法。<br>这表明，我们的 main 函数在实际工作时其实是这样的：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">void</span> * atautoreleasepoolobj = objc_autoreleasePoolPush();</span><br><span class="line">        objc_autoreleasePoolPop(atautoreleasepoolobj);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>来看一下objc_autoreleasePoolPush 和 objc_autoreleasePoolPop 的实现：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">objc_autoreleasePoolPush</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> AutoreleasePoolPage::push();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">objc_autoreleasePoolPop</span><span class="params">(<span class="keyword">void</span> *ctxt)</span> </span>&#123;</span><br><span class="line">    AutoreleasePoolPage::pop(ctxt);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再看一下objc_autoreleasePoolPush 和 objc_autoreleasePoolPop 的实现：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">objc_autoreleasePoolPush</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> AutoreleasePoolPage::push();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">objc_autoreleasePoolPop</span><span class="params">(<span class="keyword">void</span> *ctxt)</span> </span>&#123;</span><br><span class="line">    AutoreleasePoolPage::pop(ctxt);</span><br></pre></td></tr></table></figure>
+<h5 id="AutoreleasePoolPage-的结构"><a href="#AutoreleasePoolPage-的结构" class="headerlink" title="AutoreleasePoolPage 的结构"></a>AutoreleasePoolPage 的结构</h5><p>AutoreleasePoolPage 是一个 C++ 中的类，它在 NSObject.mm 中的定义是这样的：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AutoreleasePoolPage</span> &#123;</span></span><br><span class="line">    <span class="keyword">magic_t</span> <span class="keyword">const</span> magic;</span><br><span class="line">    id *next;</span><br><span class="line">    <span class="keyword">pthread_t</span> <span class="keyword">const</span> thread;</span><br><span class="line">    AutoreleasePoolPage * <span class="keyword">const</span> parent;</span><br><span class="line">    AutoreleasePoolPage *child;</span><br><span class="line">    <span class="keyword">uint32_t</span> <span class="keyword">const</span> depth;</span><br><span class="line">    <span class="keyword">uint32_t</span> hiwat;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>magic 用于对当前 AutoreleasePoolPage 完整性的校验</li>
+<li>thread 保存了当前页所在的线程<br>每一个自动释放池都是由一系列的 AutoreleasePoolPage 组成的，并且每一个 AutoreleasePoolPage 的大小都是 4096 字节（16 进制 0x1000）</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> I386_PGBYTES 4096</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PAGE_SIZE I386_PGBYTES</span></span><br></pre></td></tr></table></figure>
+<p>##### </p>
+<ul>
+<li><p>next 指向了下一个为空的内存地址，如果 <code>next</code>指向的地址加入一个 <code>objec</code>t，它就会如下图所示移动到下一个为空的内存地址中：</p>
+<p><img src="/Users/shihao/Library/Application Support/typora-user-images/image-20200601162518103.png" alt="image-20200601162518103"></p>
+</li>
+</ul>
+<ul>
+<li><p>上面的id *next指针作为游标指向栈顶最新add进来的autorelease对象的下一个位置</p>
+</li>
+<li><p>AutoreleasePool是按线程一一对应的（结构中的thread指针指向当前线程）</p>
+</li>
+<li><p>AutoreleasePoolPage每个对象会开辟4096字节内存（也就是虚拟内存一页的大小），除了上面的实例变量所占空间，剩下的空间全部用来储存autorelease对象的地址</p>
+</li>
+<li><p>一个AutoreleasePoolPage的空间被占满时，会新建一个AutoreleasePoolPage对象，连接链表，后来的autorelease对象在新的page加入</p>
+</li>
+</ul>
+<p>  #####双向链表</p>
+<p>自动释放池的AutoreleasePoolPage是以双向链表的形式连接起来的；<code>parent</code> 和<code>child</code> 就是用来构造双向链表的指针。</p>
+<blockquote>
+<p>AutoreleasePool并没有单独的结构，而是由若干个AutoreleasePoolPage以双向链表的形式组合而成（分别对应结构中的parent指针和child指针）</p>
+</blockquote>
+<h6 id="POOL-SENTINEL（哨兵对象）"><a href="#POOL-SENTINEL（哨兵对象）" class="headerlink" title="POOL_SENTINEL（哨兵对象）"></a>POOL_SENTINEL（哨兵对象）</h6><p>到了这里，你可能想要知道 <code>POOL_SENTINEL</code>到底是什么，还有它为什么在栈中。<br>首先回答第一个问题： <code>POOL_SENTINEL</code> 只是 <code>nil</code> 的别名。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> POOL_SENTINEL nil</span></span><br></pre></td></tr></table></figure>
+<p>在每个自动释放池初始化调用<code>objc_autoreleasePoolPush</code>的时候，都会把一个<code>POOL_SENTINEL</code> <code>push</code> 到自动释放池的栈顶，并且返回这个 <code>POOL_SENTINEL 哨兵对象</code>。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">void</span> * atautoreleasepoolobj = objc_autoreleasePoolPush();</span><br><span class="line">        objc_autoreleasePoolPop(atautoreleasepoolobj);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的 <code>atautoreleasepoolobj</code>就是一个<code>POOL_SENTINEL</code>。<br>而当方法<code>objc_autoreleasePoolPop</code> 调用时，就会向自动释放池中的对象发送<code>release</code>消息，直到第一个 <code>POOL_SENTINEL</code></p>
+<p>objc_autoreleasePoolPush的返回值正是这个哨兵对象的地址，被objc_autoreleasePoolPop(哨兵对象)作为入参，于是：</p>
+<ul>
+<li>根据传入的哨兵对象地址找到哨兵对象所处的page</li>
+<li>在当前page中，将晚于哨兵对象插入的所有autorelease对象都发送一次- release消息，并向回移动next指针到正确位置</li>
+<li>补充2：从最新加入的对象一直向前清理，可以向前跨越若干个page，直到哨兵所在的page</li>
+</ul>
+<h4 id="objc-autoreleasePoolPush-方法"><a href="#objc-autoreleasePoolPush-方法" class="headerlink" title="objc_autoreleasePoolPush 方法"></a>objc_autoreleasePoolPush 方法</h4><p>了解了 <code>POOL_SENTINEL</code>，我们来重新回顾一下 <code>objc_autoreleasePoolPush</code> 方法：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">objc_autoreleasePoolPush</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> AutoreleasePoolPage::push();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它调用<code>AutoreleasePoolPage</code>的类方法<code>push</code>，也非常简单：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">void</span> *<span class="title">push</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> autoreleaseFast(POOL_SENTINEL);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里会进入一个比较关键的方法<code>autoreleaseFast</code>，并传入哨兵对象 <code>POOL_SENTINEL</code>：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">static <span class="keyword">inline</span> id *autoreleaseFast(id obj)</span><br><span class="line">&#123;</span><br><span class="line">   AutoreleasePoolPage *page = hotPage();</span><br><span class="line">   <span class="keyword">if</span> (page &amp;&amp; !page-&gt;full()) &#123;</span><br><span class="line">       <span class="keyword">return</span> page-&gt;add(obj);</span><br><span class="line">   &#125; <span class="keyword">else</span> <span class="keyword">if</span> (page) &#123;</span><br><span class="line">       <span class="keyword">return</span> autoreleaseFullPage(obj, page);</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       <span class="keyword">return</span> autoreleaseNoPage(obj);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述方法分三种情况选择不同的代码执行：</p>
+<ul>
+<li>有 hotPage 并且当前 page 不满<br>》调用 page-&gt;add(obj) 方法将对象添加至 AutoreleasePoolPage 的栈中</li>
+<li>有 hotPage 并且当前 page 已满<br>》调用 autoreleaseFullPage 初始化一个新的页<br>》调用 page-&gt;add(obj) 方法将对象添加至 AutoreleasePoolPage 的栈中</li>
+<li>无 hotPage<br>》调用 autoreleaseNoPage 创建一个 hotPage<br>》调用 page-&gt;add(obj) 方法将对象添加至 AutoreleasePoolPage 的栈中<br>最后的都会调用 page-&gt;add(obj) 将对象添加到自动释放池中。<br><code>hotPage 可以理解为当前正在使用的 AutoreleasePoolPage。</code></li>
+</ul>
+<h6 id="page-gt-add-添加对象"><a href="#page-gt-add-添加对象" class="headerlink" title="page-&gt;add 添加对象"></a>page-&gt;add 添加对象</h6><p><code>id *add(id obj)</code> 将对象添加到自动释放池页中：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">id</span> *add(<span class="keyword">id</span> obj) &#123;</span><br><span class="line">    <span class="keyword">id</span> *ret = next;</span><br><span class="line">    *next = obj;</span><br><span class="line">    next++;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法其实就是一个压栈的操作，将对象加入 AutoreleasePoolPage 然后移动栈顶的指针。</p>
+<h6 id="autoreleaseFullPage（当前-hotPage-已满）"><a href="#autoreleaseFullPage（当前-hotPage-已满）" class="headerlink" title="autoreleaseFullPage（当前 hotPage 已满）"></a>autoreleaseFullPage（当前 hotPage 已满）</h6><p><code>autoreleaseFullPage</code> 会在当前的 <code>hotPage</code> 已满的时候调用：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> id *autoreleaseFullPage(id obj, AutoreleasePoolPage *page) &#123;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (page-&gt;child) page = page-&gt;child;</span><br><span class="line">        <span class="keyword">else</span> page = <span class="keyword">new</span> AutoreleasePoolPage(page);</span><br><span class="line">    &#125; <span class="keyword">while</span> (page-&gt;full());</span><br><span class="line"></span><br><span class="line">    setHotPage(page);</span><br><span class="line">    <span class="keyword">return</span> page-&gt;add(obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它会从传入的 page 开始遍历整个双向链表，直到：<br>1、查找到一个未满的<code>AutoreleasePoolPage</code><br>2、使用构造器传入 <code>parent</code> 创建一个新的 <code>AutoreleasePoolPage</code></p>
+<p>在查找到一个可以使用的 <code>AutoreleasePoolPage</code> 之后，会将该页面标记成 <code>hotPage</code>，然后调动上面分析过的<code>page-&gt;add</code> 方法添加对象。</p>
+<h6 id="autoreleaseNoPage（没有-hotPage"><a href="#autoreleaseNoPage（没有-hotPage" class="headerlink" title="autoreleaseNoPage（没有 hotPage)"></a>autoreleaseNoPage（没有 hotPage)</h6><p>如果当前内存中不存在 <code>hotPage</code>，就会调用 <code>autoreleaseNoPage</code> 方法初始化一个 <code>AutoreleasePoolPage</code>：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> id *autoreleaseNoPage(id obj) &#123;</span><br><span class="line">    AutoreleasePoolPage *page = <span class="keyword">new</span> AutoreleasePoolPage(nil);</span><br><span class="line">    setHotPage(page);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (obj != POOL_SENTINEL) &#123;</span><br><span class="line">        page-&gt;<span class="keyword">add</span>(POOL_SENTINEL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> page-&gt;<span class="keyword">add</span>(obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>既然当前内存中不存在<code>AutoreleasePoolPage</code>，就要从头开始构建这个自动释放池的双向链表，也就是说，新的<code>AutoreleasePoolPage</code> 是没有 parent 指针的。</p>
+<p>初始化之后，将当前页标记为 <code>hotPage</code>，然后会先向这个 page 中添加一个 <code>POOL_SENTINEL</code> 对象，来确保在<code>pop</code>调用的时候，不会出现异常。<br>最后，将 obj 添加到自动释放池中。</p>
+<p>###### </p>
+<p>####objc_autoreleasePoolPop 方法</p>
+<p>当执行到这个<code>objc_autoreleasePoolPop</code>方法的时候<br><code>autoreleasepool</code>会向<code>POOL_SENTINEL</code>地址后面的对象都发<code>release</code>消息，直到第一个<code>POOL_SENTINEL</code>对象截止。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/3279997-993f22dd48d2418a.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/720" alt="img"></p>
+<p>我们来理解一下这个图：</p>
+<ol>
+<li>首先看到有两个<code>POOL_SENTINEL</code>说明<code>autoreleasepool</code>还嵌套了一个<code>autoreleasepool</code>，当最新的<code>autoreleasepool</code>执行<code>objc_autoreleasePoolPop</code>方法的时候，最右边的<code>AutoreleasePoolPage</code>向里面的对象发<code>release</code>消息直到中间那个<code>POOL_SENTINEL</code>为止</li>
+<li>由<code>coldPage</code>方法的定义可知最左边的那个是<code>coldPage</code></li>
+</ol>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> inline AutoreleasePoolPage *coldPage() </span><br><span class="line">   &#123;</span><br><span class="line">       AutoreleasePoolPage *result = hotPage();</span><br><span class="line">       <span class="keyword">if</span> (result) &#123;</span><br><span class="line">           <span class="keyword">while</span> (result-&gt;parent) &#123;</span><br><span class="line">               result = result-&gt;parent;</span><br><span class="line">               result-&gt;fastcheck();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> result;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https:////upload-images.jianshu.io/upload_images/3279997-e29b826fa9695457.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/720" alt="img"></p>
+<p>依次类推。。。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在现在ARC的时代，autoreleasePool有哪些使用场景呢（<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fdeveloper.apple.com%2Flibrary%2Fcontent%2Fdocumentation%2FCocoa%2FConceptual%2FMemoryMgmt%2FArticles%2FmmAutoreleasePools.html" target="_blank" rel="noopener">苹果官方文档</a>）：</p>
+<ol>
+<li>如果你编写的程序不是基于 UI 框架的，比如说命令行工具；</li>
+<li>如果你编写的循环中创建了大量的临时对象；</li>
+<li>如果你创建了一个辅助线程。</li>
+</ol>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Autorelease原理"><span class="toc-number">1.</span> <span class="toc-text">Autorelease原理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#AutoreleasePoolPage-的结构"><span class="toc-number">1.0.0.0.1.</span> <span class="toc-text">AutoreleasePoolPage 的结构</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#POOL-SENTINEL（哨兵对象）"><span class="toc-number">1.0.0.0.1.1.</span> <span class="toc-text">POOL_SENTINEL（哨兵对象）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#objc-autoreleasePoolPush-方法"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">objc_autoreleasePoolPush 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#page-gt-add-添加对象"><span class="toc-number">1.0.0.1.0.1.</span> <span class="toc-text">page-&gt;add 添加对象</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#autoreleaseFullPage（当前-hotPage-已满）"><span class="toc-number">1.0.0.1.0.2.</span> <span class="toc-text">autoreleaseFullPage（当前 hotPage 已满）</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#autoreleaseNoPage（没有-hotPage"><span class="toc-number">1.0.0.1.0.3.</span> <span class="toc-text">autoreleaseNoPage（没有 hotPage)</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">1.1.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/06/01/Autoreleasepool/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/06/01/Autoreleasepool/&text=Autoreleasepool" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/06/01/Autoreleasepool/&title=Autoreleasepool" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/06/01/Autoreleasepool/&is_video=false&description=Autoreleasepool" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Autoreleasepool&body=Check out this article: http://yoursite.com/2020/06/01/Autoreleasepool/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/06/01/Autoreleasepool/&title=Autoreleasepool" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/06/01/Autoreleasepool/&title=Autoreleasepool" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/06/01/Autoreleasepool/&title=Autoreleasepool" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/06/01/Autoreleasepool/&title=Autoreleasepool" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/06/01/Autoreleasepool/&name=Autoreleasepool&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2020/06/01/Autoreleasepool/&t=Autoreleasepool" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020
+    shihao
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
